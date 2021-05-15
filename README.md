@@ -1,35 +1,54 @@
-Git 教程
+# Git 学习教程
+
+> 注：该教程是在 Win10 环境下编写的
+
+安装之前确保已经阅读了以下文章或已安装 Git,并能区别 Git 和 GitHub 的关系.
+> [Git 详细安装教程 (详解 Git 安装过程的每一个步骤)](https://blog.csdn.net/mukes/article/details/115693833)
+> [Git 和 Github 的区别？以及 Git 的起源](https://blog.csdn.net/mukes/article/details/115673337)
 
 
 
-
+一个 Git 项目的构成:
 
 工作区(工作树) -- 暂存区（Stage 或者 Index）-- HEAD（本地仓库） --远程仓库
-
 
 一个命令速查表：awesome-cheatsheets
 
 
-设置用户名邮箱
-安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。 这一点很重要，因为每一个 Git 提交都会使用这些信息，它们会写入到你的每一次提交中，不可更改：
-git config --global user.email "1373998182@qq.com" 等同于  git config --global --add user.email "1373998182@qq.com"
-git config --global user.name "kesyupeng"
 
-这两个命令会把邮箱和用户名设置在 C:\Users\用户名 目录下的 .gitconfig 文件中，linux 下是 ~/.gitconfig 或者 ~/.config/git/config
- C:\Program Files\Git\etc 目录下也有一个 gitconfig 文件，是系统的，在 linxu 下是 /etc/gitconfig
+
+### 初步入门
+
+#### 设置用户名邮箱
+安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。 这一点很重要，因为每一个 Git 提交都会使用这些信息，它们会写入到你的每一次提交中，不可更改：
+
+``` bash
+git config --global user.email "your_email@example.com" 等同于  git config --global --add user.email "your_email@example.com"
+git config --global user.name "Firstname Lastname"
+```
+
+这两个命令会把邮箱和用户名设置在 `C:\Users\$USER 目录下的 .gitconfig 文件` 中，linux 下是 `~/.gitconfig` 或者  `~/.config/git/config`
+
+C:\Program Files\Git\etc 目录下也有一个 gitconfig 文件，是系统的，在 linxu 下是 /etc/gitconfig
+
 git config --global --unset user.name  删除 user.name 配置
 执行 git config --global 命令的时候生成 ~/.gitconfig 文件
 仓库名 主干分支之类的属性 存在 项目 .git 文件夹下的 config 中
 
 Git 会按照你需要自动为大部分的输出加上颜色，你能明确地规定哪些需要着色以及怎样着色，设置 color.ui 为 true 来打开所有的默认终端着色。auto 则是自动选择
+```
 git config --global color.ui auto
+```
 
 
-
-查看设置
+#### 查看设置
+```
 git config --list --show-origin 或者 cat ~/.gitconfig
+```
 
-创建 SSH Key
+#### 创建 SSH Key
+
+```
 $ ssh-keygen -t rsa -C you_email@example.com
 然后按一次回车键，输入密码
 代码参数含义：
@@ -43,9 +62,12 @@ git 的安装目录下才有
 
 跳过不输入密码时，以后也不需要密码了
 要改会设置的话 可能就需要 ssh-keygen 命令了
+```
 
-查看公开秘钥
+#### 查看公开秘钥
+```
 $ cat ~/.ssh/id_rsa.pub
+```
 
 ~ 指当前用户目录
 如：/c/Users/admin
@@ -56,16 +78,17 @@ known_hosts格式：Ip或域名 主机名 host-key
 使用 known_hosts 的作用是防止 DNS 攻击。
 
 linux 下公钥存放的位置
-~/.ssh/authorized_keys
+`~/.ssh/authorized_keys`
 
 用私人秘钥和 GitHub 进行认证和通信
-$ ssh -T git@github.com
+`ssh -T git@github.com`
 
 clone 已有仓库
-git clone git@github.com:keyupeng/hello-world.git
+`git clone git@github.com:keyupeng/hello-world.git`
 
 克隆时会在当前目录下生成一个 hello-world 目录，这个目录就是 hello-world 项目，里面存放着项目源码
 
+```
 $ git branch -a
 * master
   remotes/origin/HEAD -> origin/master  # 这个的意思是指默认分支
@@ -105,33 +128,41 @@ $ git log
 
 进行 push
 $ git push
-
+```
 
 第 2 部分
 
-创建一个目录并初始化仓库
+#### 创建一个目录并初始化仓库
+
+```
 $ mkdir git-tutorial
 $ cd gti-tutorial
 $ git init
+```
 初始化后会生成一个 .git 目录，这个目录存储着管理当前目录内容所需的仓库数据
 
 我们一般将该目录（不是.git 目录）的内容称为”附属于该仓库的工作树“ ？（未确认
 
+#### 查看仓库的状态
+```
+git status  
+```
 
-git status  查看仓库的状态
-$ git status
 一般使用该命令后可能会出现这个词，untracked files 表示未跟踪文件
 意思是说该文件还没加入到暂存区
 只是在当前工作目录创建了文件，那么该文件并不会被记入 Git 仓库的版本管理对象当中。因此我们用 git status 命令查看 REAME.md 文件时，它会显示在 Untracked files 里。
 
-
-git add 向暂存区添加文件
+#### 向暂存区添加文件
+```
+git add 
 $ git add 文件名.后缀
+```
 使用该命令后再 git status 可能出现的词：changes to be committed 表示 已暂存/已暂存可以被提交的文件/等待提交/要提交的更改
 add 表示将文件加入暂存区。暂存区是提交之前的一个暂存的区域
 
 
 git commit 保存仓库的历史记录
+```
 $ git commit -m  "备注提交信息"
 -m 后面的消息 称为提交信息，对这个提交的概述。
 git commit -am "备注信息"  # 可以提交被跟踪的文件，未被系统跟踪的文件不能提交 
@@ -143,7 +174,7 @@ git commit -am "备注信息"  # 可以提交被跟踪的文件，未被系统�
 再运行 git status 出现：
 nothing to commit, working tree clean 现在是 2021年 # 工作树
 14年出版的 GitHub 入门与实践 的结果则是：nothing to commit, working directory clean # 工作目录
-
+```
 
 
 
@@ -279,7 +310,6 @@ git fetch origin 会抓取克隆（或上一次抓取）后新推送的所有工
 默认情况下，git clone 命令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。 运行 git pull 通常会从最初克隆的服务器上抓取数据并自动尝试合并到当前所在的分支。
 
 git pull = git fetch + git merge
-
 
 
 
